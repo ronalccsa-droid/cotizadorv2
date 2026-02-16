@@ -208,13 +208,13 @@ ov = load_overrides_price(list_name)
 ins_active = apply_overrides(insumos, ov, codigo_col, precio_col)
 
 unit_cost, acu_enriched = calc_unit_cost_per_partida(
-    acu=acu,
-    ins_active=ins_active,
-    acu_partida_col=partida_col,
-    acu_insumo_code_col=acu_insumo_col,
-    acu_qty_col=acu_qty_col,
-    acu_price_col=acu_price_col,
-    insumo_code_col=codigo_col
+    acu,
+    ins_active,
+    partida_col,
+    acu_insumo_col,
+    acu_qty_col,
+    acu_price_col,
+    codigo_col
 )
 
 partidas = unit_cost[partida_col].astype(str).sort_values().unique().tolist()
@@ -460,4 +460,3 @@ with tab_admin:
         ins_small = insumos[[codigo_col, desc_col]].drop_duplicates(subset=[codigo_col])
         det = det.merge(ins_small.rename(columns={codigo_col: acu_insumo_col, desc_col:"insumo_desc"}), on=acu_insumo_col, how="left")
         st.dataframe(det[[partida_col, acu_insumo_col, "insumo_desc", acu_qty_col, "precio_usado", "parcial_calc"]], use_container_width=True)
-
